@@ -13,7 +13,7 @@ def load_movies(apps, schema_editor):
         categories = {'fieldnames': ('movie_id', 'title', 'release_date'), 'delimiter': '|'}
         reader = csv.DictReader(f, **categories)
         for row in reader:
-            m = Movie(row['movie_id'], row['title'], row['release_date'])
+            m = Movie(id=row['movie_id'], title=row['title'], release_date=row['release_date'])
             m.save()
 
 
@@ -25,22 +25,24 @@ def load_users(apps, schema_editor):
         categories = {'fieldnames': ('user_id', 'age', 'gender'), 'delimiter': '|'}
         reader = csv.DictReader(f, **categories)
         for row in reader:
-            u = User(row['user_id'], row['age'], row['gender'])
+            u = User(id=row['user_id'], age=row['age'], gender=row['gender'])
             u.save()
 
 
 def load_ratings(apps, schema_editor):
     Rating = apps.get_model("recommender", "Rating")
+    User = apps.get_model("recommender", "User")
+    Movie = apps.get_model("recommender", "Movie")
     csv_PATH = 'u.data'
 
     with open(csv_PATH, 'r') as f:
         categories = {'fieldnames': ('user_id', 'movie_id', 'rating', 'rating_date'), 'delimiter': '\t'}
         reader = csv.DictReader(f, **categories)
         for row in reader:
-            # Erros is thrown bc some user_id was null
-            # table is header is formatted funny id, rating, rating_date, movie_id, user_id
-            # I need an id gerated
-            r = Rating(row['rating'], row['rating_date'], row['user_id'], row['movie_id'])
+            u = User.objects.get(id=row['user_id'])
+            m = Movie.objects.get(id=row['movie_id'])
+
+            r = Rating(rating=row['rating'], rating_date=row['rating_date'], user=u, movie=m)
             r.save()
 
 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'recommender/style.css'}" /> -->
+    <meta charset="utf-8">
+    <title>Movies</title>
+  </head>
+  <body>
+    {% if top20 %}
+        <ul style="list-style: none;">
+        {% for movie in top20 %}
+            <li><a href="/recommender/{{ movie.id }}/">{{ movie.title }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No movies are available.</p>
+    {% endif %}
+
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{movie.title}}</title>
+  </head>
+  <body>
+    {% if movie %}
+        <h1>{{ movie.title }}</h1>
+        <ul style="list-style: none;">
+          <li>Movie Id: {{movie.id}}</li>
+          <li>Release Date: {{movie.release_date}}</li>
+          {% if num_rating %}
+          <li>{{avg}} </li>
+          <ul style="list-style: none;">
+          </ul>
+          {% else %}
+              <p style="color:red">No rating is available.</p>
+          {% endif %}
+        </ul>
+    {% else %}
+        <p style="color:red">No movies are available.</p>
+    {% endif %}
+
+  </body>
+</html>
